@@ -1,0 +1,49 @@
+.card {
+  width: 165px;
+  height: 250px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 8px;
+    width: 100%;
+    height: 50%;
+    padding: 16px;
+    position: absolute;
+    background: linear-gradient(
+      1deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.35) 40%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transition: 0.35s ease-in-out;
+    bottom: -125px;
+    color: white;
+    opacity: 0;
+  }
+  .card-title {
+    font-size: 18px;
+  }
+  .card-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-height: 70px;
+    font-size: 14px;
+  }
+  &:hover {
+    .card-content {
+      backdrop-filter: blur(2px) grayscale(0.5);
+      height: 100%;
+      bottom: 0;
+      opacity: 1;
+    }
+  }
+}
