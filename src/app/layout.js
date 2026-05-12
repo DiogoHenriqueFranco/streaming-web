@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import { options, url } from "../config";
+import { options, authUrl } from "../config";
 import { Header } from "../components/header/header";
 
 const geistSans = Geist({
@@ -21,7 +21,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 
-  fetch(url, options)
+  fetch(authUrl, options)
     .then(res => res.json())
     .then(json => console.log(json))
     .catch(err => console.error(err));

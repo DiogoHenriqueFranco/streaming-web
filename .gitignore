@@ -10,8 +10,6 @@
 !.yarn/releases
 !.yarn/versions
 
-/src/config
-
 # testing
 /coverage
 
@@ -42,3 +40,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 *.md
+src/config.js

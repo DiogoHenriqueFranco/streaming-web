@@ -20,11 +20,11 @@ export default function Track({ items }) {
     }
 
     const scrollLeft = () => {
-        trackRef.current.scrollBy({ left: -1200, behavior: "smooth" });
+        trackRef.current.scrollBy({ left: -Math.abs(trackRef.current.scrollWidth/(items.length/5)), behavior: "smooth" });
     }
 
     const scrollRight = () => {
-        trackRef.current.scrollBy({ left: 1200, behavior: "smooth" });
+        trackRef.current.scrollBy({ left: Math.abs(trackRef.current.scrollWidth/(items.length/5)), behavior: "smooth" });
     }
 
     const buttonStyle = (visible) => ({
@@ -43,12 +43,12 @@ export default function Track({ items }) {
     <div className="wrapper">
         <button className="left-btn" onClick={scrollLeft} style={buttonStyle(showLeft)}>←</button>
         <div className="track" ref={trackRef} onScroll={handleScroll} style={trackStyle(showLeft, showRight)}>
-        {items.map((movie) => (
+        {items.map((item) => (
             <Card
-            key={movie.id}
-            image={movie.poster_path}
-            title={movie.title}
-            description={movie.overview}
+            key={item.id}
+            image={item.poster_path}
+            title={item.title}
+            description={item.overview}
             />
         ))}
         </div>
