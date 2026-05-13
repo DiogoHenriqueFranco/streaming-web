@@ -38,7 +38,7 @@ export default function Track({ items }) {
         paddingRight: showRight ? '64px' : '0',
         transition: 'padding 0.45s ease',
     });
-
+    
   return (
     <div className="wrapper">
         <button className="left-btn" onClick={scrollLeft} style={buttonStyle(showLeft)}>←</button>
@@ -46,8 +46,10 @@ export default function Track({ items }) {
         {items.map((item) => (
             <Card
             key={item.id}
+            id={item.id}
+            type={item.media_type || (item.title ? 'movie' : 'show')}
             image={item.poster_path}
-            title={item.title}
+            title={item.title || item.name}
             description={item.overview}
             />
         ))}

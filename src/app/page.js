@@ -11,14 +11,12 @@ export default async function Home() {
   const showsData = await showsRes.json();
   const showsItems = await showsData.results;
 
-
-
   return (
     <main>
       <h1>Home Page</h1>
       <Feature sectionTitle="Popular Movies" items={moviesItems} />
 
-      <Feature sectionTitle="Popular Shows" items={showsItems} />
+      <Feature sectionTitle="Popular Shows" items={showsItems}/>
     </main>
   );
 }
