@@ -1,3 +1,4 @@
+import './page.module.css';
 import Feature from "@/components/features-block/features-block";
 import { discoverMoviesUrl, discoverShowsUrl, options } from "@/config";
 

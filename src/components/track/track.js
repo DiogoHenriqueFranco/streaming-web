@@ -5,56 +5,77 @@ import Card from "@/components/card/card";
 
 export default function Track({ items }) {
     const trackRef = useRef(null);
-    const [showLeft, setShowLeft] = useState(false);
-    const [showRight, setShowRight] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [cardsPerView, setCardsPerView] = useState(0);
+    const maxIndex = Math.max(0, items.length - cardsPerView);
+
+    const gap = 16;
 
     useEffect(() => {
-    const track = trackRef.current;
-    setShowRight(track.scrollWidth > track.clientWidth);
-    }, [items]);
+        const calculateCardsPerView = () => {
+            if (!trackRef.current || trackRef.current.children.length === 0) return;
 
-    const handleScroll = () => {
-        const track = trackRef.current;
-        setShowLeft(track.scrollLeft > 0);
-        setShowRight(track.scrollLeft + track.clientWidth < track.scrollWidth);
-    }
+            const containerWidth = trackRef.current.clientWidth;
+            const cardWidth = trackRef.current.children[0].offsetWidth;
+            const calculated = Math.floor(containerWidth / (cardWidth + gap));
+            setCardsPerView(Math.max(0, calculated));
+        };
 
-    const scrollLeft = () => {
-        trackRef.current.scrollBy({ left: -Math.abs(trackRef.current.scrollWidth/(items.length/5)), behavior: "smooth" });
-    }
 
-    const scrollRight = () => {
-        trackRef.current.scrollBy({ left: Math.abs(trackRef.current.scrollWidth/(items.length/5)), behavior: "smooth" });
-    }
+        calculateCardsPerView();
+        window.addEventListener('resize', calculateCardsPerView);
+        return () => window.removeEventListener('resize', calculateCardsPerView);
+    }, []);
 
-    const buttonStyle = (visible) => ({
-        opacity: visible ? 1 : 0,
-        visibility: visible ? 'visible' : 'hidden',
-        transition: 'opacity 0.3s ease, visibility 0.3s ease',
+    const scroll = (direction) => {
+        let newIndex = currentIndex + direction;
+        newIndex = Math.max(0, Math.min(newIndex, maxIndex));
+        setCurrentIndex(newIndex);
+
+        if (trackRef.current) {
+            const cardWidth = trackRef.current.children[0]?.offsetWidth || 0;
+            
+            trackRef.current.scrollTo({
+                left: newIndex * (cardWidth + gap),
+                behavior: "smooth"
+            });
+        }
+    };
+
+    const buttonStyle = (disabled) => ({
+        opacity: disabled ? 0.3 : 1,
+        pointerEvents: disabled ? 'none' : 'auto',
+        transition: 'opacity 0.3s ease',
     });
 
-    const trackStyle = (showLeft, showRight) => ({
-        paddingLeft: showLeft ? '64px' : '0',
-        paddingRight: showRight ? '64px' : '0',
-        transition: 'padding 0.45s ease',
-    });
-    
-  return (
-    <div className="wrapper">
-        <button className="left-btn" onClick={scrollLeft} style={buttonStyle(showLeft)}>←</button>
-        <div className="track" ref={trackRef} onScroll={handleScroll} style={trackStyle(showLeft, showRight)}>
-        {items.map((item) => (
-            <Card
-            key={item.id}
-            id={item.id}
-            type={item.media_type || (item.title ? 'movie' : 'show')}
-            image={item.poster_path}
-            title={item.title || item.name}
-            description={item.overview}
-            />
-        ))}
+    return (
+        <div className="track-wrapper">
+            <button
+                className="left-btn"
+                onClick={() => scroll(-1)}
+                style={buttonStyle(currentIndex === 0)}
+            >
+                ←
+            </button>
+            <div className="track" ref={trackRef}>
+                {items.map((item) => (
+                    <Card
+                        key={item.id}
+                        id={item.id}
+                        type={item.media_type || (item.title ? 'movie' : 'show')}
+                        image={item.poster_path}
+                        title={item.title || item.name}
+                        description={item.overview}
+                    />
+                ))}
+            </div>
+            <button
+                className="right-btn"
+                onClick={() => scroll(1)}
+                style={buttonStyle(currentIndex === maxIndex)}
+            >
+                →
+            </button>
         </div>
-        <button className="right-btn" onClick={scrollRight} style={buttonStyle(showRight)}>→</button>
-    </div>
-  );
+    );
 }
