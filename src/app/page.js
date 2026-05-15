@@ -1,23 +1,32 @@
 import './page.module.css';
 import Feature from "@/components/features-block/features-block";
-import { discoverMoviesUrl, discoverShowsUrl, options } from "@/config";
+import { options, trendingMoviesUrl, trendingShowsUrl, upcomingMoviesUrl, upcomingShowsUrl } from "@/config";
 
 
 export default async function Home() {
-  const moviesRes = await fetch(discoverMoviesUrl, options);
-  const moviesData = await moviesRes.json();
-  const moviesItems = await moviesData.results;
 
-  const showsRes = await fetch(discoverShowsUrl, options);
-  const showsData = await showsRes.json();
-  const showsItems = await showsData.results;
+  async function getApiResults(url) {
+    const res = await fetch(url, options);
+    const data = await res.json();
+    const items = await data.results;
+    return await items;
+  }
 
+  const [trendingMovies, trendingShows, upcomingMovies, upcomingShows] = await Promise.all([
+    getApiResults(trendingMoviesUrl),
+    getApiResults(trendingShowsUrl),
+    getApiResults(upcomingMoviesUrl),
+    getApiResults(upcomingShowsUrl)
+  ]);
+
+  
   return (
     <main>
       <h1>Home Page</h1>
-      <Feature sectionTitle="Popular Movies" items={moviesItems} />
-
-      <Feature sectionTitle="Popular Shows" items={showsItems}/>
+      <Feature sectionTitle="Trending Movies" items={trendingMovies} />
+      <Feature sectionTitle="Trending Shows" items={trendingShows}/>
+      <Feature sectionTitle="Upcoming Movies" items={upcomingMovies}/>
+      <Feature sectionTitle="Upcoming Shows" items={upcomingShows}/>
     </main>
   );
 }

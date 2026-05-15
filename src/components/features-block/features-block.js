@@ -1,6 +1,6 @@
 import Track from "../track/track";
 
-export default async function FeatureBlock( {sectionTitle, items, type} ) {
+export default function FeatureBlock( {sectionTitle, items} ) {
   return (
     <div>
       <h1>{sectionTitle}</h1>

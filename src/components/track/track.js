@@ -62,7 +62,7 @@ export default function Track({ items }) {
                     <Card
                         key={item.id}
                         id={item.id}
-                        type={item.media_type || (item.title ? 'movie' : 'show')}
+                        type={item.media_type || (item.title ? 'movie' : 'tv')}
                         image={item.poster_path}
                         title={item.title || item.name}
                         description={item.overview}

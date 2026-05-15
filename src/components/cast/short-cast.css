@@ -1,0 +1,37 @@
+.cast-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cast-wrapper {
+  display: flex;
+  gap: 24px;
+  overflow: hidden;
+  .cast-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    min-width: 180px;
+    gap: 16px;
+    background-color: #ffffff10;
+    border-radius: 16px;
+    .cast-profile {
+      width: 180px;
+      height: 240px;
+      border-radius: 16px;
+      background-size: 100%;
+      background-position: top;
+      background-repeat: no-repeat;
+    }
+    .cast-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      p {
+        text-align: center;
+      }
+    }
+  }
+}
