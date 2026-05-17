@@ -1,0 +1,6 @@
+.feature-block {
+  margin: 32px 0;
+  .block-header {
+    display: flex;
+  }
+}

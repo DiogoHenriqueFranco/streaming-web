@@ -18,11 +18,9 @@ export default async function Home() {
     getApiResults(upcomingMoviesUrl),
     getApiResults(upcomingShowsUrl)
   ]);
-
   
   return (
-    <main>
-      <h1>Home Page</h1>
+    <main id="homepage">
       <Feature sectionTitle="Trending Movies" items={trendingMovies} />
       <Feature sectionTitle="Trending Shows" items={trendingShows}/>
       <Feature sectionTitle="Upcoming Movies" items={upcomingMovies}/>

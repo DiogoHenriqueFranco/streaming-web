@@ -1,6 +1,7 @@
+import FeatureBlock from '@/components/features-block/features-block';
 import Body from '@/components/watch-page/body';
 import Hero from '@/components/watch-page/hero';
-import { options, detailsUrl } from '@/config';
+import { options, detailsUrl, similarsUrl, recomendationsUrl } from '@/config';
 import { notFound } from 'next/navigation';
 
 export default async function WatchPage({ params }) {
@@ -25,12 +26,27 @@ export default async function WatchPage({ params }) {
         data = await res.json();
     }
 
-    console.log
+    async function getApiResults(url) {
+        const res = await fetch(url, options);
+        const data = await res.json();
+        const items = await data.results;
+
+        console.log(items)
+        return await items;
+    }
+
+    const [similars, recomendations] = await Promise.all([
+        getApiResults(similarsUrl(type, id)),
+        getApiResults(recomendationsUrl(type, id)),
+    ]);
+
 
     return (
         <main>
             <Hero data={data} type={type} />
             <Body data={data} type={type}/>
+            {similars?.length > 0 && (type === "tv" ? <FeatureBlock sectionTitle={"Similar Shows"} items={similars} /> : <FeatureBlock sectionTitle={"Similar Movies"} items={similars} />)}
+            {recomendations?.length > 0 && (type === "tv" ? <FeatureBlock sectionTitle={"Recomended Shows"} items={recomendations} /> : <FeatureBlock sectionTitle={"Recomended Movies"} items={recomendations} />)}
         </main>
     );
 }

@@ -1,22 +1,22 @@
 .track-wrapper {
   position: relative;
   display: flex;
-  align-items: center;
-  gap: 16px;
-  button {
+  justify-items: center;
+  align-items: end;
+  .btn {
     position: absolute;
-    height: 100%;
+    width: 40px;
+    height: 20%;
+    margin: 64px 0;
     z-index: 1;
-    font-size: 2.5rem;
-    line-height: 0;
-    border: none;
 
     cursor: pointer;
     background: transparent;
+    border: none;
   }
-  .left-btn {
-    left: -16px;
-    text-align: start;
+  .left.btn {
+    left: -20px;
+
     /*     background: linear-gradient(
       90deg,
       rgba(0, 68, 94, 0.75) 0%,
@@ -24,9 +24,8 @@
       rgba(0, 0, 0, 0) 80%
     ); */
   }
-  .right-btn {
-    right: -16px;
-    text-align: end;
+  .right.btn {
+    right: -20px;
     /*     background: linear-gradient(
       -90deg,
       rgba(0, 68, 94, 0.75) 0%,
@@ -38,9 +37,10 @@
 
 .track {
   display: flex;
-  overflow-x: auto;
+  margin: 8px 15px;
+  padding: 0 8px;
   gap: 16px;
-  margin: 0 16px;
+  overflow-x: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
   -webkit-scrollbar {

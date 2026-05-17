@@ -1,62 +1,54 @@
 'use client';
 import { useEffect, useRef, useState } from "react";
 import "./track.css";
-import Card from "@/components/card/card";
+import Card from "../card/card";
+import { CircleArrowLeft, CircleArrowRight } from "lucide-react";
 
 export default function Track({ items }) {
     const trackRef = useRef(null);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [cardsPerView, setCardsPerView] = useState(0);
-    const maxIndex = Math.max(0, items.length - cardsPerView);
-
-    const gap = 16;
+    const [atStart, setAtStart] = useState(true);
+    const [atEnd, setAtEnd] = useState(false);
 
     useEffect(() => {
-        const calculateCardsPerView = () => {
-            if (!trackRef.current || trackRef.current.children.length === 0) return;
+        const track = trackRef.current;
+        setAtEnd(track.scrollWidth <= track.clientWidth);
 
-            const containerWidth = trackRef.current.clientWidth;
-            const cardWidth = trackRef.current.children[0].offsetWidth;
-            const calculated = Math.floor(containerWidth / (cardWidth + gap));
-            setCardsPerView(Math.max(0, calculated));
-        };
+        function checkScroll() {
+            setAtStart(track.scrollLeft === 0);
+            setAtEnd(track.scrollLeft + track.clientWidth >= track.scrollWidth);
+        }
 
-
-        calculateCardsPerView();
-        window.addEventListener('resize', calculateCardsPerView);
-        return () => window.removeEventListener('resize', calculateCardsPerView);
+        track.addEventListener('scroll', checkScroll);
+        return () => track.removeEventListener('scroll', checkScroll);
     }, []);
 
-    const scroll = (direction) => {
-        let newIndex = currentIndex + direction;
-        newIndex = Math.max(0, Math.min(newIndex, maxIndex));
-        setCurrentIndex(newIndex);
 
-        if (trackRef.current) {
-            const cardWidth = trackRef.current.children[0]?.offsetWidth || 0;
-            
-            trackRef.current.scrollTo({
-                left: newIndex * (cardWidth + gap),
-                behavior: "smooth"
-            });
-        }
+    const getScrollAmount = () => {
+        const track = trackRef.current;
+        const cardWidth = track.firstChild?.offsetWidth || 0;
+        const gap = 16;
+        const padding = 8 * 2; // both sides
+        const visible = Math.floor((track.clientWidth - padding) / (cardWidth + gap));
+        return (cardWidth + gap) * visible;
     };
 
+    function scrollLeft() {
+        trackRef.current.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+    }
+
+    function scrollRight() {
+        trackRef.current.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+    }
+
     const buttonStyle = (disabled) => ({
-        opacity: disabled ? 0.3 : 1,
+        opacity: disabled ? 0.15 : 1,
         pointerEvents: disabled ? 'none' : 'auto',
         transition: 'opacity 0.3s ease',
     });
 
     return (
         <div className="track-wrapper">
-            <button
-                className="left-btn"
-                onClick={() => scroll(-1)}
-                style={buttonStyle(currentIndex === 0)}
-            >
-                ←
-            </button>
+            <CircleArrowLeft className="left btn" onClick={scrollLeft} style={buttonStyle(atStart)} />
             <div className="track" ref={trackRef}>
                 {items.map((item) => (
                     <Card
@@ -69,13 +61,7 @@ export default function Track({ items }) {
                     />
                 ))}
             </div>
-            <button
-                className="right-btn"
-                onClick={() => scroll(1)}
-                style={buttonStyle(currentIndex === maxIndex)}
-            >
-                →
-            </button>
+            <CircleArrowRight className="right btn" onClick={scrollRight} style={buttonStyle(atEnd)} />
         </div>
     );
 }

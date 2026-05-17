@@ -3,7 +3,6 @@ import "./short-cast.css";
 
 export default function ShortCast({data}) {
 
-    console.log(data)
     return (
         <div className="cast-container">
             <h1>Cast</h1>
