@@ -8,12 +8,11 @@ export function Header({ sessionId }) {
         <header>
             <div className="header-wrapper">
                 <Link href='/'><h1>LOGO</h1></Link>
-                <input type="text" placeholder='Search...' />
+                <input type="text" placeholder='Type to search...' />
                 {sessionId ? 
                 <>
                 <nav>
                     <ul>
-                        <li>Home</li>
                         <li>Movies</li>
                         <li>TV Shows</li>
                     </ul>

@@ -8,6 +8,18 @@ header {
     align-items: center;
     justify-content: space-between;
 
+    input {
+      width: 80ch;
+      padding: 8px 8px;
+      border: none;
+      border-radius: 4px;
+
+      &::after {
+        content: "-";
+        background-color: red;
+      }
+    }
+
     nav ul {
       display: flex;
       gap: 32px;

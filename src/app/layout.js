@@ -24,7 +24,6 @@ export default async function RootLayout({ children }) {
 
   fetch(authUrl, options)
     .then(res => res.json())
-    .then(json => console.log(json))
     .catch(err => console.error(err));
   
   const cookieStore = await cookies();

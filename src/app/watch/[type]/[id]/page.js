@@ -45,8 +45,8 @@ export default async function WatchPage({ params }) {
         <main>
             <Hero data={data} type={type} />
             <Body data={data} type={type}/>
-            {similars?.length > 0 && (type === "tv" ? <FeatureBlock sectionTitle={"Similar Shows"} items={similars} /> : <FeatureBlock sectionTitle={"Similar Movies"} items={similars} />)}
-            {recomendations?.length > 0 && (type === "tv" ? <FeatureBlock sectionTitle={"Recomended Shows"} items={recomendations} /> : <FeatureBlock sectionTitle={"Recomended Movies"} items={recomendations} />)}
+            {similars?.length > 0 && (type === "tv" ? <FeatureBlock sectionTitle={"Similar Shows"} items={similars} type="show" /> : <FeatureBlock sectionTitle={"Similar Movies"} items={similars} type={type} />)}
+            {recomendations?.length > 0 && (type === "tv" ? <FeatureBlock sectionTitle={"Recomended Shows"} items={recomendations} type="show" /> : <FeatureBlock sectionTitle={"Recomended Movies"} items={recomendations} type={type} />)}
         </main>
     );
 }

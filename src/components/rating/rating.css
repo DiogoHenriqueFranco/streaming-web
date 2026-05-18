@@ -1,0 +1,14 @@
+.rating-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 4px;
+  .rating-icon {
+    width: 16px;
+    color: gold;
+  }
+  p {
+    color: white;
+    font-size: 18px;
+  }
+}

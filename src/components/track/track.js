@@ -4,7 +4,7 @@ import "./track.css";
 import Card from "../card/card";
 import { CircleArrowLeft, CircleArrowRight } from "lucide-react";
 
-export default function Track({ items }) {
+export default function Track({ items, ratings }) {
     const trackRef = useRef(null);
     const [atStart, setAtStart] = useState(true);
     const [atEnd, setAtEnd] = useState(false);
@@ -27,7 +27,7 @@ export default function Track({ items }) {
         const track = trackRef.current;
         const cardWidth = track.firstChild?.offsetWidth || 0;
         const gap = 16;
-        const padding = 8 * 2; // both sides
+        const padding = 8 * 2;
         const visible = Math.floor((track.clientWidth - padding) / (cardWidth + gap));
         return (cardWidth + gap) * visible;
     };
@@ -46,18 +46,23 @@ export default function Track({ items }) {
         transition: 'opacity 0.3s ease',
     });
 
+   
+
+
+
     return (
         <div className="track-wrapper">
             <CircleArrowLeft className="left btn" onClick={scrollLeft} style={buttonStyle(atStart)} />
             <div className="track" ref={trackRef}>
-                {items.map((item) => (
+                {items.map((item, index) => (
                     <Card
-                        key={item.id}
+                        key={index}
                         id={item.id}
                         type={item.media_type || (item.title ? 'movie' : 'tv')}
                         image={item.poster_path}
                         title={item.title || item.name}
                         description={item.overview}
+                        rating={item.vote_average || null}
                     />
                 ))}
             </div>
